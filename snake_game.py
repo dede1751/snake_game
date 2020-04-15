@@ -4,7 +4,7 @@ import json
 
 import pygame
 import pygame.font
-from pygame.sprite import Sprite 
+from pygame.sprite import Sprite
 
 class SnakeHead():
     """Main class for player controlled head"""
@@ -101,8 +101,8 @@ class SnakeGame():
         pygame.init()
         #settings
         self.snake_size = 30#multiple of 2 
-        self.screen_width = 600
-        self.screen_height = 450 + 2*self.snake_size
+        self.screen_width = 20*self.snake_size
+        self.screen_height = 17*self.snake_size
         self.bg_color = (0,0,0)
         self.game_active = False
         #creates display
@@ -115,7 +115,7 @@ class SnakeGame():
         self.button = Button(self, 'Play')
         self.bodies = pygame.sprite.Group()
         #apple init
-        self.apple_image = pygame.image.load("apple.bmp")
+        self.apple_image = pygame.image.load("images/apple.bmp")
         self.apple_rect = self.apple_image.get_rect()
         #highscore init
         self.filename = 'high_score.json'
@@ -175,10 +175,11 @@ class SnakeGame():
 
     def _check_button(self, mouse_pos):
         """Checks if mouse position collides with button"""
-        if self.button.rect.collidepoint(mouse_pos):
+        if self.button.rect.collidepoint(mouse_pos) and self.game_active == False:
             self.reset_stats()
             self.bodies.empty()
             self.snake.rect_init()
+            pygame.mouse.set_visible(False)
 
     def check_events(self):
         """Checks last item in event queue"""
@@ -206,6 +207,7 @@ class SnakeGame():
         position = self.snake.position
         if position[0] == position[1] or position[0] in position[1:-1]:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
     def generate_apple(self):
         """Generates random apple position not occupied by snake"""    
@@ -234,9 +236,7 @@ class SnakeGame():
         self.body_count += 1
 
     def update_snake(self):
-        """
-        Snake rect moves, checks collisions, moves bodies.
-        """
+        """Snake rect moves, checks collisions, moves bodies."""
         self.snake.move()
         self.snake.update_position()
         self.check_snake_collisions()

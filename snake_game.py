@@ -115,7 +115,7 @@ class SnakeGame():
         self.button = Button(self, 'Play')
         self.bodies = pygame.sprite.Group()
         #apple init
-        self.apple_image = pygame.image.load("images/apple.bmp")
+        self.apple_image = pygame.image.load("apple.bmp")
         self.apple_rect = self.apple_image.get_rect()
         #highscore init
         self.filename = 'high_score.json'
